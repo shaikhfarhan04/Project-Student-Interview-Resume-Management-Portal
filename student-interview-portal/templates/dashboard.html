@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+  <div class="card">
+    <div class="topbar">
+      <div>
+        <h1>Welcome, {{ user.name }}</h1>
+        <p class="subtitle">Interview Resume Portal</p>
+      </div>
+      <a class="logout" href="{{ url_for('logout') }}">Logout</a>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}
+        <div class="alert {{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endwith %}
+
+    <div class="profile">
+      <p><strong>Name:</strong> {{ user.name }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>Phone:</strong> {{ user.phone }}</p>
+      <p><strong>Current Resume:</strong>
+        {{ user.resume_original_name or "No resume uploaded yet" }}
+      </p>
+    </div>
+
+    <hr>
+
+    <h2>Upload Resume</h2>
+    <p class="hint">Accepted: PDF, DOC, DOCX | Maximum: 5 MB</p>
+
+    <form method="POST" enctype="multipart/form-data">
+      <input type="file" name="resume" accept=".pdf,.doc,.docx" required>
+      <button type="submit">Upload Resume</button>
+    </form>
+  </div>
+</div>
+</body>
+</html>
